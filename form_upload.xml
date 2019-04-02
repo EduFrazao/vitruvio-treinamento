@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<panel-form xmlns="http://www.davinti.com.br/vitruvio/form/panel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.davinti.com.br/vitruvio/form/panel https://bitbucket.org/davinTI/vitruvio-xds/raw/master/vitruvio-panel-form.xsd">
+  <form formKey="formUpload" composer="VitruvioEditor:2.1.1-rc1.java8" width="50%" height="100%" target="DEFAULT">
+    <name><![CDATA[Persistencai do form]]></name>
+    <initScript language="JavaScript"><![CDATA[var vc = libService.loadScript('vaadinComponents');
+function run() {
+    
+    var fileId = 28399;
+    var file = vFileService.getFile(fileId);
+    
+    var resource = vc.fileResource(file);
+    
+    var widgetImagem = engine.getWidgetController('imagem');
+    
+    var image = widgetImagem.getComponent();
+    image.setSource(resource);
+}
+]]></initScript>
+    <components>
+      <VerticalLayout width="100%" spacing="true" margin="true" visible="true" align="TOP_LEFT" height="100%" id="TFtSbeSz">
+        <FileUploadWidget visible="true" align="TOP_LEFT" id="upload" action="NOTIFY_SCRIPT">
+          <OnFileUploadScript language="JavaScript" provideVariables="false"><![CDATA[importClass(Packages.br.com.davinti.vitruvio.domain.sistema.Arquivo);
+
+/* Carga da biblioteca JavaScript */
+var vc = libService.loadScript('vaadinComponents');
+
+// 
+function onFileUpload(fileInfo) {
+    var resource = vc.fileResource(fileInfo.getFile(), fileInfo.getFileName());
+    
+    var widgetImagem = engine.getWidgetController('imagem');
+    
+    var image = widgetImagem.getComponent();
+    image.setSource(resource);
+    
+    
+    // Persistindo imagem
+    var meta = new Arquivo();
+    meta.setNomeOriginal(fileInfo.getFileName());
+    meta.setMime(fileInfo.getMime());
+    
+    var persistido = vFileService.persistFile(meta, fileInfo.getFile());
+    engine.debug(persistido.getId());
+    
+    return true;
+}]]></OnFileUploadScript>
+        </FileUploadWidget>
+        <ImageWidget visible="true" align="TOP_LEFT" id="imagem" expandRatio="1.0">
+          <image>
+            <base64/>
+          </image>
+        </ImageWidget>
+      </VerticalLayout>
+    </components>
+  </form>
+</panel-form>

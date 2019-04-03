@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mobile-forms xmlns="http://www.davinti.com.br/vitruvio/mobile-form" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.davinti.com.br/vitruvio/mobile-form https://bitbucket.org/davinTI/vitruvio-xds/raw/master/vitruvio-mobile-form.xsd">
+		
+	<form formKey="formKey">
+		<name>Name</name>
+		<initScript language="JavaScript">
+			<![CDATA[
+				function run() {
+					
+				}			
+			]]>
+		</initScript>
+
+		<components>
+			<VerticalLayout spacing="true" margin="true" width="100%">
+				
+			</VerticalLayout>
+		</components>		
+	</form>
+
+</mobile-forms>

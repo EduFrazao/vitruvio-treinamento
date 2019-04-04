@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:activiti="http://activiti.org/bpmn" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="coleta_produtos_treinamento" name="Coleta de Produtos - Treinamento" isExecutable="true" activiti:candidateStarterGroups="treinamento">
+    <bpmn2:startEvent id="StartEvent_1" activiti:formKey="formAbertura" activiti:initiator="usuario">
+      <bpmn2:outgoing>SequenceFlow_13ttph7</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:endEvent id="EndEvent_0zo07ew">
+      <bpmn2:incoming>SequenceFlow_1mismfi</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:userTask id="taskColeta" name="Conferência com ítens" activiti:formKey="formConferencia" activiti:assignee="${vStringUtils.validateAssignee(_schedule_mapping_user)}" activiti:candidateGroups="${vStringUtils.validateRoles(_schedule_mapping_group)}">
+      <bpmn2:extensionElements>
+        <activiti:taskListener class="br.com.davinti.vitruvio.activiti.delegate.SubFormItemListMapGenerator" event="create">
+          <activiti:field name="subFormKey">
+            <activiti:string>formColeta</activiti:string>
+          </activiti:field>
+          <activiti:field name="formImplementation">
+            <activiti:string>mobile</activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_0vrc2nq</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1mismfi</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="tskPrimeiraColeta" name="Conferencia sem Itens" activiti:formKey="formConferencia" activiti:candidateGroups="treinamento">
+      <bpmn2:incoming>SequenceFlow_13ttph7</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0vrc2nq</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_13ttph7" sourceRef="StartEvent_1" targetRef="tskPrimeiraColeta" />
+    <bpmn2:sequenceFlow id="SequenceFlow_0vrc2nq" sourceRef="tskPrimeiraColeta" targetRef="taskColeta" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1mismfi" sourceRef="taskColeta" targetRef="EndEvent_0zo07ew" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="coleta_produtos_treinamento">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="265" y="211" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="238" y="247" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0zo07ew_di" bpmnElement="EndEvent_0zo07ew">
+        <dc:Bounds x="721" y="211" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="739" y="251" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0tttrsj_di" bpmnElement="taskColeta">
+        <dc:Bounds x="538" y="189" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_13myi24_di" bpmnElement="tskPrimeiraColeta">
+        <dc:Bounds x="341" y="189" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_13ttph7_di" bpmnElement="SequenceFlow_13ttph7">
+        <di:waypoint x="301" y="229" />
+        <di:waypoint x="341" y="229" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="321" y="208" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vrc2nq_di" bpmnElement="SequenceFlow_0vrc2nq">
+        <di:waypoint x="441" y="229" />
+        <di:waypoint x="538" y="229" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="489.5" y="208" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1mismfi_di" bpmnElement="SequenceFlow_1mismfi">
+        <di:waypoint x="638" y="229" />
+        <di:waypoint x="721" y="229" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="679.5" y="208" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

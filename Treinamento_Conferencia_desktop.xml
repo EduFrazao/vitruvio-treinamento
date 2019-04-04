@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<forms xmlns="http://www.davinti.com.br/vitruvio/form"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.davinti.com.br/vitruvio/form https://bitbucket.org/davinTI/vitruvio-xds/raw/master/vitruvio-form.xsd">
+
+	<descriptorScript language="JavaScript">
+		<![CDATA[
+			function s() {
+				this.getDescriptor = function() {					
+					return null;
+				}
+			}
+			var script = new s();
+		]]>
+	</descriptorScript>
+
+	<form formKey="formAbertura" width="100%" >
+		<name>Nome</name>
+		<description>Descrição</description>
+		<components>
+			<VerticalLayout margin="true">
+				<DateField type="date" id="dataAbertura" caption="Data de abertura do processo" />
+				<TextArea type="string" id="observacoes" caption="Observações" rows="2" />
+			</VerticalLayout>
+		</components>
+	</form>
+	
+	<form formKey="formConferencia" width="100%">
+		<name>Conferência de produtos</name>
+		<components>
+			<VerticalLayout spacing="true" margin="true" width="100%">
+				<Label id="conferencia" caption="Detalhes da conferência">
+					<value>Conferência de produtos. Por favor utilize o form de coleta</value>
+				</Label>
+				
+				<SubForm formKey="formColeta" width="100%">
+					<name>Coletar produto</name>	
+					
+					<initScript language="JavaScript">
+						<![CDATA[
+							function run() {
+								engine.getField('preco').focus();
+							}
+						]]>
+					</initScript>
+							
+					<ItemList rows="3" >
+						<property id="codigo" caption="Código" />
+						<property id="descricao" caption="Nome" />
+					</ItemList>
+					
+					<components>
+						<VerticalLayout width="100%">
+							<NumericField type="number" id="codigo" caption="Código" readOnly="true" />
+							<TextField type="string" id="descricao" caption="Nome" readOnly="true" />
+							<DecimalField type="decimal" id="preco" caption="Preço" />
+						</VerticalLayout>
+					</components>
+				</SubForm>
+				
+				<HorizontalLayout expandRatio="0">
+					<SubFormProgressWidget subFormKey="formColeta" id="statusColeta" formImplementation="WEB_MOBILE">
+						<ItemList>
+						   <property id="codigo" valueColumnHeader="Produto" displayValue="true" />
+						   <property id="descricao" valueColumnHeader="Descrição" displayValue="true" />
+						   <property id="preco" valueColumnHeader="Cód. Barra" displayValue="true" />
+						</ItemList>
+	            	</SubFormProgressWidget>
+					<ButtonWidget id="exibirStatus" caption="Exibir status da coleta">
+						<onClickScript language="JavaScript">
+							<![CDATA[
+								function run() {
+									var controller = engine.getWidgetController('statusColeta');
+									controller.showForTask(engine.getTaskId());
+								}
+							]]>
+						</onClickScript>
+					</ButtonWidget>
+				</HorizontalLayout>
+			</VerticalLayout>
+		</components>
+	</form>
+
+</forms>
